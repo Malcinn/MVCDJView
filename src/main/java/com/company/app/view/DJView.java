@@ -38,7 +38,9 @@ public class DJView implements BeatObserver, BPMObserver {
 		viewPanel = new JPanel(new GridLayout(1, 2));
 		viewFrame = new JFrame("View");
 		viewFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		viewFrame.setSize(new Dimension(100, 80));
+		viewFrame.setSize(new Dimension(1000, 800));
+		//viewFrame.pack();
+		viewFrame.setVisible(true);
 		
 	}
 
