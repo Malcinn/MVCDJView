@@ -13,6 +13,10 @@ public class BeatModel implements BeatModelInterface, SequencerObserver {
 
 	private int bpm = 90;
 
+	public BeatModel(Sequencer sequencer) {
+		this.sequencer = sequencer;
+	}
+
 	@Override
 	public void initalize() {
 		setUpSequencer();

@@ -9,11 +9,13 @@ public class SimpleSequencer implements Sequencer, Runnable {
 
 	private static final int MILLISECONDS_IN_SECOND = 1000;
 
+	private static final int ERROR_SLEEP = 1000;
+
 	private List<SequencerObserver> sequencerObservers = new ArrayList<>();
 
 	private SequencerState state = SequencerState.OFF;
 
-	private int bpm = 0;
+	private int bpm = 1;
 
 	@Override
 	public void start() {
@@ -51,20 +53,40 @@ public class SimpleSequencer implements Sequencer, Runnable {
 	public void run() {
 		while (true) {
 			if (state.equals(SequencerState.ON)) {
-				try {
-					Thread.sleep(getMilisFromBPM());
-					notifySequencerObservers();
-				} catch (InterruptedException e) {
-					System.out.println("Error ocurred while Thread try to sleep. message: " + e);
-				}
+				sequencerStateOn();
 			} else {
-				System.out.println("Sequencer is off.");
+				sequencerStateOff();
 			}
 		}
 	}
 
+	private void sequencerStateOn() {
+		try {
+			Thread.sleep(getMilisFromBPM());
+			notifySequencerObservers();
+		} catch (InterruptedException e) {
+			System.out.println("Error ocurred while Thread try to sleep. message: " + e);
+		}
+	}
+
+	private void sequencerStateOff() {
+		System.out.println("Sequencer is off.");
+		try {
+			Thread.sleep(ERROR_SLEEP);
+		} catch (InterruptedException e) {
+			System.out.println("Error ocurred while Thread try to sleep. message: " + e);
+		}
+	}
+
+	/**
+	 * @return BPM converted into milliseconds
+	 */
 	private long getMilisFromBPM() {
-		return (bpm / SECONDS_IN_MINUTE) * MILLISECONDS_IN_SECOND;
+
+		if (bpm >= SECONDS_IN_MINUTE) {
+			return MILLISECONDS_IN_SECOND / (bpm / SECONDS_IN_MINUTE);
+		}
+		return (SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND) / bpm;
 	}
 
 }
