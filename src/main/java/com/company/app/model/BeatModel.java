@@ -19,12 +19,13 @@ public class BeatModel implements BeatModelInterface, SequencerObserver {
 
 	@Override
 	public void initalize() {
+		sequencer.registerObserver(this);
 		setUpSequencer();
 	}
 
 	private void setUpSequencer() {
 		sequencer.setTempoInBPM(bpm);
-		Thread thread = new Thread(new SimpleSequencer());
+		Thread thread = new Thread(sequencer);
 		thread.start();
 	}
 
@@ -63,7 +64,7 @@ public class BeatModel implements BeatModelInterface, SequencerObserver {
 	@Override
 	public void notifyBeatObservers() {
 		for (BeatObserver beatObserver : beatObservers) {
-			beatObserver.update(this);
+			beatObserver.updateBeat(this);
 		}
 	}
 
@@ -80,7 +81,7 @@ public class BeatModel implements BeatModelInterface, SequencerObserver {
 	@Override
 	public void notifyBPMObservers() {
 		for (BPMObserver bpmObserver : bpmObservers) {
-			bpmObserver.update(this);
+			bpmObserver.updateBPM(this);
 		}
 	}
 

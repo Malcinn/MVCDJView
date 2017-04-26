@@ -1,6 +1,6 @@
 package com.company.app.model;
 
-public interface Sequencer {
+public interface Sequencer extends Runnable{
 
 	/**
 	 * Method starts sequencer, and set it state to ON;

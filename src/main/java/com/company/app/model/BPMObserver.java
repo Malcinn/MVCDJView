@@ -7,5 +7,5 @@ public interface BPMObserver {
 	 * 
 	 * @param beatModelInterface
 	 */
-	public void update(BeatModelInterface beatModelInterface);
+	public void updateBPM(BeatModelInterface beatModelInterface);
 }

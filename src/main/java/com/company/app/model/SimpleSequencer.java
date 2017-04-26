@@ -3,7 +3,7 @@ package com.company.app.model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SimpleSequencer implements Sequencer, Runnable {
+public class SimpleSequencer implements Sequencer {
 
 	private static final int SECONDS_IN_MINUTE = 60;
 

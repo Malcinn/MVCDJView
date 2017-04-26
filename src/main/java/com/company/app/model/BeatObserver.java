@@ -7,5 +7,5 @@ public interface BeatObserver {
 	 * 
 	 * @param beatModelInterface
 	 */
-	public void update(BeatModelInterface beatModelInterface);
+	public void updateBeat(BeatModelInterface beatModelInterface);
 }
