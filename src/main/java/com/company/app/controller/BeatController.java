@@ -1,38 +1,35 @@
 package com.company.app.controller;
 
-import javax.management.modelmbean.ModelMBean;
-
+import com.company.app.model.BPMObserver;
 import com.company.app.model.BeatModelInterface;
+import com.company.app.model.BeatObserver;
 import com.company.app.view.DJView;
 
 public class BeatController implements ControllerInterface {
 
+	private static final int BPM_STEP = 1;
+
 	private BeatModelInterface beatModel;
 
-	private DJView djView;
+	private DJView djView2;
 
 	public BeatController(BeatModelInterface beatModel) {
 		this.beatModel = beatModel;
-		djView = new DJView(this, beatModel);
-		djView.createView();
-		djView.createControls();
-		djView.disableStopMenuItem();
-		djView.enableStartMenuItem();
+		this.djView2 = new DJView(this, beatModel);
+		beatModel.registerObserver((BeatObserver) djView2);
+		beatModel.registerObserver((BPMObserver) djView2);
 		beatModel.initalize();
+		djView2.initialize();
 	}
 
 	@Override
 	public void start() {
 		beatModel.on();
-		djView.disableStartMenuItem();
-		djView.enableStopMenuItem();
 	}
 
 	@Override
 	public void stop() {
 		beatModel.off();
-		djView.enableStartMenuItem();
-		djView.disableStopMenuItem();
 	}
 
 	@Override
@@ -42,12 +39,12 @@ public class BeatController implements ControllerInterface {
 
 	@Override
 	public void increaseBPM() {
-		beatModel.setBPM(beatModel.getBPM() + 1);
+		beatModel.setBPM(beatModel.getBPM() + BPM_STEP);
 	}
 
 	@Override
 	public void decreaseBPM() {
-		beatModel.setBPM(beatModel.getBPM() - 1);
+		beatModel.setBPM(beatModel.getBPM() - BPM_STEP);
 	}
 
 }
